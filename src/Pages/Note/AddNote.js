@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAddNewNoteMutation } from '../../Store/Slices/notesSlice';
 
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AddNote = () => {
@@ -38,6 +38,7 @@ const AddNote = () => {
         setSubmitted(true);
         navigate('/notes');
         setSubmitted(false);
+        setNote(initialNoteState);
       })
       .then((error) => {
         setSubmitted(false);
@@ -46,7 +47,7 @@ const AddNote = () => {
   };
 
   return (
-    <div className='submit-form'>
+    <Box sx={{ padding: 2 }}>
       {submitted ? (
         <div>
           <Typography component='h1' variant='h5'>
@@ -102,7 +103,7 @@ const AddNote = () => {
           </Button>
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 

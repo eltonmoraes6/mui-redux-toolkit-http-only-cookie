@@ -8,8 +8,6 @@ import Profile from '../Pages/Profile';
 import { Signup } from '../Pages/Signup';
 import Protected from '../utils/Protected';
 
-import AddNote from '../Pages/Note/AddNote';
-
 import Notes from '../Pages/Note/Notes';
 
 let isAuth = localStorage.getItem('accessToken');
@@ -32,17 +30,16 @@ const PROTECTED_ROUTES = [
   { path: '/', element: <Home /> },
   { path: '/profile', element: <Profile /> },
   { path: '/notes', element: <Notes /> },
-  { path: '/notes/add', element: <AddNote /> },
 ];
 
 const PUBLIC_ROUTES = [
   {
     path: '/main',
-    element: <Main />,
+    element: isAuth ? <Navigate to='/' /> : <Main />,
   },
   {
     path: '/about',
-    element: <About />,
+    element: isAuth ? <Navigate to='/' /> : <About />,
   },
   {
     path: '/login',

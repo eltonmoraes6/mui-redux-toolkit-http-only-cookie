@@ -4,8 +4,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Container,
   Grid,
+  Stack,
   Typography,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { useGetNotesQuery } from '../../Store/Slices/notesSlice';
 
 import PageTitle from '../../Components/PageTitle';
-
+import AddNote from './AddNote';
 const columns = [
   {
     field: 'id',
@@ -99,69 +99,67 @@ const Notes = () => {
   return (
     <>
       <PageTitle title='Notes' />
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          minHeight: '100%',
-          py: 3,
-        }}
-      >
-        <Container maxWidth='lg'>
-          <Grid container spacing={3}>
-            {!isLoading ? (
-              <Box
-                style={{
-                  height: 'auto',
-                  width: '100%',
-                  marginBottom: '50px',
-                }}
-              >
-                <DataGrid
-                  autoHeight
-                  rows={pageState?.data || []}
-                  columns={columns}
-                  // getRowId={(row) => row._id}
-                  rowCount={pageState.total}
-                  loading={pageState.isLoading}
-                  rowsPerPageOptions={[10, 15, 30, 50, 70, 100]}
-                  experimentalFeatures={{ newEditingApi: true }}
-                  pagination
-                  onRowClick={(params) => {
-                    // redirectToReport(params.row);
-                    // console.log(params.id);
-                  }}
-                  rowHeight={25}
-                  page={pageState.page - 1}
-                  pageSize={pageState.pageSize}
-                  onPageChange={(newPage) => {
-                    setPageState((old) => ({ ...old, page: newPage + 1 }));
-                  }}
-                  onPageSizeChange={(newPageSize) =>
-                    setPageState((old) => ({ ...old, pageSize: newPageSize }))
-                  }
-                  checkboxSelection
-                  disableSelectionOnClick
-                  // onSelectionModelChange={(ids) => {
-                  //   const selectedIDs = new Set(ids);
-                  //   const selectedRows = pageState.data.filter((row) =>
-                  //     selectedIDs.has(row.id.toString())
-                  //   );
-                  //   setSelectedRows(selectedRows);
-                  // }}
-                  onRowSelectionModelChange={(newRowSelectionModel) => {
-                    setRowSelectionModel(newRowSelectionModel);
-                    const selectedIDs = new Set(newRowSelectionModel);
-                    const selectedRows = pageState.data.filter((row) =>
-                      selectedIDs.has(row.id.toString())
-                    );
-                    setSelectedRows(selectedRows);
-                  }}
-                  rowSelectionModel={rowSelectionModel}
-                />
-                <Grid item xs={2} sm={4} md={4}>
-                  <Box sx={{ minWidth: 275 }}>
-                    {selectedRows &&
-                      selectedRows.map((item) => (
+      <Box sx={{ display: 'flex' }}>
+        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+          {!isLoading ? (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <Card sx={{ minWidth: 'auto', height: 'auto' }}>
+                    <AddNote />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <DataGrid
+                    autoHeight
+                    rows={pageState?.data || []}
+                    columns={columns}
+                    // getRowId={(row) => row._id}
+                    rowCount={pageState.total}
+                    loading={pageState.isLoading}
+                    rowsPerPageOptions={[10, 15, 30, 50, 70, 100]}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    pagination
+                    onRowClick={(params) => {
+                      // redirectToReport(params.row);
+                      // console.log(params.id);
+                    }}
+                    rowHeight={25}
+                    page={pageState.page - 1}
+                    pageSize={pageState.pageSize}
+                    onPageChange={(newPage) => {
+                      setPageState((old) => ({ ...old, page: newPage + 1 }));
+                    }}
+                    onPageSizeChange={(newPageSize) =>
+                      setPageState((old) => ({ ...old, pageSize: newPageSize }))
+                    }
+                    checkboxSelection
+                    disableSelectionOnClick
+                    // onSelectionModelChange={(ids) => {
+                    //   const selectedIDs = new Set(ids);
+                    //   const selectedRows = pageState.data.filter((row) =>
+                    //     selectedIDs.has(row.id.toString())
+                    //   );
+                    //   setSelectedRows(selectedRows);
+                    // }}
+                    onRowSelectionModelChange={(newRowSelectionModel) => {
+                      setRowSelectionModel(newRowSelectionModel);
+                      const selectedIDs = new Set(newRowSelectionModel);
+                      const selectedRows = pageState.data.filter((row) =>
+                        selectedIDs.has(row.id.toString())
+                      );
+                      setSelectedRows(selectedRows);
+                    }}
+                    rowSelectionModel={rowSelectionModel}
+                  />
+                </Grid>
+              </Grid>
+              <Box height={20}></Box>
+              <Grid container spacing={2}>
+                {selectedRows &&
+                  selectedRows.map((item) => (
+                    <Grid item xs={12} sm={4} key={item.id}>
+                      <Stack spacing={2}>
                         <Card variant='outlined'>
                           <CardContent>
                             <Typography
@@ -185,15 +183,15 @@ const Notes = () => {
                             <Button size='small'>Learn More</Button>
                           </CardActions>
                         </Card>
-                      ))}
-                  </Box>
-                </Grid>
-              </Box>
-            ) : (
-              <div>No entries</div>
-            )}
-          </Grid>
-        </Container>
+                      </Stack>
+                    </Grid>
+                  ))}
+              </Grid>
+            </>
+          ) : (
+            <div>No entries</div>
+          )}
+        </Box>
       </Box>
     </>
   );

@@ -1,0 +1,57 @@
+.paddin__gall {
+  padding: 10px 10px 10px 10px;
+}
+
+.price__title {
+  font-weight: 600;
+}
+
+.price__sub-title {
+  font-size: 14px;
+}
+
+.icon__style svg {
+  margin-top: 20px;
+  margin-left: 20px;
+  color: aliceblue;
+}
+
+.icon__style-black svg {
+  margin-top: 20px;
+  margin-left: 20px;
+  color: black;
+}
+
+.gradient {
+  background: rgb(40, 34, 70);
+  background: linear-gradient(
+    158deg,
+    rgba(40, 34, 70, 1) 0%,
+    rgba(30, 47, 141, 1) 100%
+  );
+}
+
+.gradient__light {
+  background: rgb(53, 138, 148);
+  background: linear-gradient(
+    158deg,
+    rgba(53, 138, 148, 1) 0%,
+    rgba(91, 180, 96, 1) 100%
+  );
+}
+
+.bg__color {
+  min-height: 100vh;
+  background: #eceff1;
+  background: linear-gradient(
+    158deg,
+    rgb(224, 224, 224) 0%,
+    rgb(233, 237, 254) 100%
+  );
+}
+
+/* @media only screen and (max-width: 768px) {
+  .gradient__light {
+    width: 100%;
+  }
+} */
