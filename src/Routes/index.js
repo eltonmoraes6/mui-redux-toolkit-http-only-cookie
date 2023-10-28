@@ -9,6 +9,8 @@ import { Signup } from '../Pages/Signup';
 import Protected from '../utils/Protected';
 
 import Notes from '../Pages/Note/Notes';
+import Reports from '../Pages/Reports';
+import Users from '../Pages/Users';
 
 let isAuth = localStorage.getItem('accessToken');
 
@@ -29,7 +31,9 @@ export default function Router() {
 const PROTECTED_ROUTES = [
   { path: '/', element: <Home /> },
   { path: '/profile', element: <Profile /> },
+  { path: '/reports', element: <Reports /> },
   { path: '/notes', element: <Notes /> },
+  { path: '/users', element: <Users /> },
 ];
 
 const PUBLIC_ROUTES = [

@@ -9,9 +9,8 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const settings = [
-  { id: 1, path: '/profile', title: 'Profile' },
-  { id: 2, path: '/account', title: 'Account' },
-  { id: 3, path: '/dashborad', title: 'Dashboard' },
+  { id: 2, path: '/profile', title: 'Perfil' },
+  { id: 3, path: '/settings', title: 'Configurações' },
 ];
 
 function MenuIconButton({ handlelogOut }) {

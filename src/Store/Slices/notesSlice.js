@@ -1,42 +1,44 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from './apiSlice';
+
 export const notesSlice = createApi({
   reducerPath: 'notes',
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API,
-    withCredentials: true,
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Notes'],
   endpoints: (builder) => ({
     getNotes: builder.query({
-      query: () => '/note',
-      providesTags: ['Note'],
+      query: () => ({
+        url: '/notes',
+        method: 'GET',
+        credentials: 'include',
+      }),
+      invalidatesTags: ['Notes'],
     }),
     addNewNote: builder.mutation({
       query: (payload) => ({
-        url: '/note',
+        url: '/notes',
         method: 'POST',
         body: payload,
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
       }),
-      invalidatesTags: ['Note'],
+      invalidatesTags: ['Notes'],
     }),
     updateNote: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `/note/${id}`,
+        url: `/notes/${id}`,
         method: 'PUT',
         body: payload,
       }),
-      invalidatesTags: ['Note'],
+      invalidatesTags: ['Notes'],
     }),
-
     deleteNote: builder.mutation({
       query: (id) => ({
-        url: `/note/${id}`,
+        url: `/notes/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Note'],
+      invalidatesTags: ['Notes'],
     }),
   }),
 });

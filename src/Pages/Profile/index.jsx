@@ -1,24 +1,20 @@
-import { Box, Container, Grid } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, selectUser } from '../../Store/Slices/userSlice';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import React from 'react';
 
 import PageTitle from '../../Components/PageTitle';
+import { useGetUserQuery } from '../../Store/Slices/usersSlice';
 import AccountProfile from './AccountProfile';
 import AccountProfileDetails from './AccountProfileDetails';
 
 const Account = () => {
-  const dispatch = useDispatch();
-  const apiRef = useRef(true);
-  const userInfo = useSelector(selectUser);
+  const {
+    data: user,
+    isLoading,
+    // isSuccess,
+    // isError,
+    // error,
+  } = useGetUserQuery();
 
-  useEffect(() => {
-    if (apiRef.current) {
-      dispatch(getCurrentUser());
-      apiRef.current = false;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <>
       <PageTitle title='Account' />
@@ -30,14 +26,18 @@ const Account = () => {
         }}
       >
         <Container maxWidth='lg'>
-          <Grid container spacing={3}>
-            <Grid item lg={4} md={6} xs={12}>
-              <AccountProfile user={userInfo} />
+          {isLoading ? (
+            <Typography>Loading...</Typography>
+          ) : (
+            <Grid container spacing={3}>
+              <Grid item lg={4} md={6} xs={12}>
+                <AccountProfile user={user.user} />
+              </Grid>
+              <Grid item lg={8} md={6} xs={12}>
+                <AccountProfileDetails user={user.user} />
+              </Grid>
             </Grid>
-            <Grid item lg={8} md={6} xs={12}>
-              <AccountProfileDetails user={userInfo} />
-            </Grid>
-          </Grid>
+          )}
         </Container>
       </Box>
     </>

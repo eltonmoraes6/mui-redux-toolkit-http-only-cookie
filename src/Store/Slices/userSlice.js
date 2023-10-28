@@ -47,9 +47,11 @@ export const getCurrentUser = () => {
   return async (dispatch) => {
     try {
       const response = await getUser();
+      console.log('response: ', response);
       dispatch(setUser(response.data.user));
     } catch (error) {
-      //   alert(error?.response?.data?.errors[0]);
+      console.log(error);
+      // alert(error?.response?.data?.errors[0]);
     }
   };
 };

@@ -1,8 +1,6 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,14 +16,13 @@ import Toolbar from '@mui/material/Toolbar';
 
 import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser, selectUser } from '../Store/Slices/userSlice';
 
 import BarChartIcon from '@mui/icons-material/BarChart';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import GroupIcon from '@mui/icons-material/Group';
 import Home from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import { ListSubheader } from '@mui/material';
 import { useAlert } from 'react-alert';
@@ -34,6 +31,7 @@ import MenuIconButton from '../Components/MenuIconButton';
 import { logOut } from '../Services/auth';
 import { persistor } from '../Store/store';
 
+import { useGetUserQuery } from '../Store/Slices/usersSlice';
 import logo from '../assets/images/acpsLogo.png';
 import '../styles/styles.css';
 
@@ -86,10 +84,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft({ children }) {
   const theme = useTheme();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiRef = React.useRef(true);
-  const userInfo = useSelector(selectUser);
+  const {
+    data: user,
+    isLoading,
+    // isSuccess,
+    // isError,
+    // error,
+  } = useGetUserQuery();
 
   const [open, setOpen] = React.useState(false);
 
@@ -119,14 +121,6 @@ export default function PersistentDrawerLeft({ children }) {
       });
     }
   };
-
-  React.useEffect(() => {
-    if (apiRef.current) {
-      dispatch(getCurrentUser());
-      apiRef.current = false;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -174,6 +168,7 @@ export default function PersistentDrawerLeft({ children }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <ListSubheader inset>Início</ListSubheader>
         <List>
           {[
             {
@@ -184,15 +179,21 @@ export default function PersistentDrawerLeft({ children }) {
             },
             {
               id: 2,
-              title: 'Notes',
+              title: 'Relatórios',
               icon: <BarChartIcon />,
-              path: '/notes',
+              path: '/reports',
             },
             {
               id: 3,
-              title: 'Send email',
-              icon: <MailIcon />,
-              path: '/',
+              title: 'Usuários',
+              icon: <GroupIcon />,
+              path: '/users',
+            },
+            {
+              id: 4,
+              title: 'Notas',
+              icon: <ChecklistIcon />,
+              path: '/notes',
             },
           ].map((item) => (
             <ListItem
@@ -208,40 +209,7 @@ export default function PersistentDrawerLeft({ children }) {
             </ListItem>
           ))}
         </List>
-        {!userInfo ? (
-          <>
-            <Divider />
-            <List>
-              {[
-                { id: 1, title: 'All mail', icon: <InboxIcon />, path: '' },
-                {
-                  id: 2,
-                  title: 'Fazer Login',
-                  icon: <ExitToAppIcon />,
-                  path: 'login',
-                },
-                {
-                  id: 3,
-                  title: 'Criar Conta',
-                  icon: <PersonAddIcon />,
-                  path: 'signup',
-                },
-              ].map((item) => (
-                <ListItem
-                  key={item.id}
-                  disablePadding
-                  component={Link}
-                  to={item.path}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.title} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </>
-        ) : (
+        {!isLoading && user && (
           <>
             <Divider />
             <ListSubheader inset>Usuário</ListSubheader>

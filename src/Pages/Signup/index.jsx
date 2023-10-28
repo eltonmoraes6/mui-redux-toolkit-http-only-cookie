@@ -64,6 +64,7 @@ export const Signup = () => {
     familyName: null,
     gender: null,
     phone: null,
+    address: null,
   });
 
   const handleCredentials = (e) => {
@@ -88,6 +89,10 @@ export const Signup = () => {
       setCredentials((prevState) => {
         return { ...prevState, familyName: value };
       });
+    } else if (name === 'address') {
+      setCredentials((prevState) => {
+        return { ...prevState, address: value };
+      });
     } else if (name === 'gender') {
       setCredentials((prevState) => {
         return { ...prevState, gender: value };
@@ -100,7 +105,6 @@ export const Signup = () => {
   };
 
   const signUp = async () => {
-    console.log(credentials);
     try {
       dispatcher({
         type: ACTIONS.CALL_API,
@@ -122,7 +126,9 @@ export const Signup = () => {
     }
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = (event) => {
+    event.preventDefault();
+
     if (!credentials.email) {
       return alert.error('Please enter an Email !');
     }
@@ -150,237 +156,264 @@ export const Signup = () => {
               <img src={userIcon} alt='user icon' />
             </div>
             <h1>Criar conta</h1>
+            <form onSubmit={handleSignUp}>
+              {/* Name */}
+              <TextField
+                fullWidth
+                label='Nome'
+                margin='normal'
+                name='name'
+                id='name'
+                size='small'
+                type='text'
+                variant='outlined'
+                onChange={handleCredentials}
+                error={
+                  credentials.name &&
+                  credentials.name !== '' &&
+                  !credentials.name.match(nameFormat)
+                }
+                helperText={
+                  credentials.name &&
+                  credentials.name !== '' &&
+                  !credentials.name.match(nameFormat) && (
+                    <Alert severity='error'>Name is required</Alert>
+                  )
+                }
+              />
 
-            {/* Name */}
-            <TextField
-              fullWidth
-              label='Nome'
-              margin='normal'
-              name='name'
-              id='name'
-              size='small'
-              type='text'
-              variant='outlined'
-              onChange={handleCredentials}
-              error={
-                credentials.name &&
-                credentials.name !== '' &&
-                !credentials.name.match(nameFormat)
-              }
-              helperText={
-                credentials.name &&
-                credentials.name !== '' &&
-                !credentials.name.match(nameFormat) && (
-                  <Alert severity='error'>Name is required</Alert>
-                )
-              }
-            />
+              {/* User Family Name */}
+              <TextField
+                fullWidth
+                label='Sobrenome'
+                margin='normal'
+                name='familyName'
+                id='familyName'
+                size='small'
+                type='text'
+                variant='outlined'
+                onChange={handleCredentials}
+                error={
+                  credentials.familyName &&
+                  credentials.familyName !== '' &&
+                  !credentials.familyName.match(nameFormat)
+                }
+                helperText={
+                  credentials.familyName &&
+                  credentials.familyName !== '' &&
+                  !credentials.familyName.match(nameFormat) && (
+                    <Alert severity='error'>Family Name is required</Alert>
+                  )
+                }
+              />
 
-            {/* User Family Name */}
-            <TextField
-              fullWidth
-              label='Sobrenome'
-              margin='normal'
-              name='familyName'
-              id='familyName'
-              size='small'
-              type='text'
-              variant='outlined'
-              onChange={handleCredentials}
-              error={
-                credentials.familyName &&
-                credentials.familyName !== '' &&
-                !credentials.familyName.match(nameFormat)
-              }
-              helperText={
-                credentials.familyName &&
-                credentials.familyName !== '' &&
-                !credentials.familyName.match(nameFormat) && (
-                  <Alert severity='error'>Family Name is required</Alert>
-                )
-              }
-            />
+              {/* User Address Name */}
+              <TextField
+                fullWidth
+                label='Endereço'
+                margin='normal'
+                name='address'
+                id='address'
+                size='small'
+                type='text'
+                variant='outlined'
+                onChange={handleCredentials}
+                error={
+                  credentials.address &&
+                  credentials.address !== '' &&
+                  !credentials.address.match(nameFormat)
+                }
+                helperText={
+                  credentials.address &&
+                  credentials.address !== '' &&
+                  !credentials.address.match(nameFormat) && (
+                    <Alert severity='error'>Address Name is required</Alert>
+                  )
+                }
+              />
 
-            {/* User Gender */}
-            <TextField
-              fullWidth
-              label='Sexo'
-              margin='normal'
-              name='gender'
-              id='gender'
-              size='small'
-              type='text'
-              variant='outlined'
-              select
-              SelectProps={{ native: true }}
-              onChange={handleCredentials}
-              error={
-                credentials.gender &&
-                credentials.gender !== '' &&
-                !credentials.gender.match(genderFormat)
-              }
-              helperText={
-                credentials.gender &&
-                credentials.gender !== '' &&
-                !credentials.gender.match(genderFormat) && (
-                  <Alert severity='error'>Gender is required</Alert>
-                )
-              }
-            >
-              {[
-                { id: 1, value: '', label: '' },
-                { id: 2, value: 'M', label: 'M' },
-                { id: 3, value: 'F', label: 'F' },
-              ].map((option) => (
-                <option key={option.id} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </TextField>
+              {/* User Gender */}
+              <TextField
+                fullWidth
+                label='Sexo'
+                margin='normal'
+                name='gender'
+                id='gender'
+                size='small'
+                type='text'
+                variant='outlined'
+                select
+                SelectProps={{ native: true }}
+                onChange={handleCredentials}
+                error={
+                  credentials.gender &&
+                  credentials.gender !== '' &&
+                  !credentials.gender.match(genderFormat)
+                }
+                helperText={
+                  credentials.gender &&
+                  credentials.gender !== '' &&
+                  !credentials.gender.match(genderFormat) && (
+                    <Alert severity='error'>Gender is required</Alert>
+                  )
+                }
+              >
+                {[
+                  { id: 1, value: '', label: '' },
+                  { id: 2, value: 'M', label: 'M' },
+                  { id: 3, value: 'F', label: 'F' },
+                ].map((option) => (
+                  <option key={option.id} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
 
-            {/* User Gender */}
-            <TextField
-              fullWidth
-              label='Telefone'
-              margin='normal'
-              name='phone'
-              id='phone'
-              size='small'
-              type='text'
-              variant='outlined'
-              onChange={handleCredentials}
-              value={phoneMask(credentials.phone && credentials.phone)}
-              error={
-                credentials.phone &&
-                credentials.phone !== '' &&
-                !credentials.phone.match(phoneFormat)
-              }
-              helperText={
-                credentials.phone &&
-                credentials.phone !== '' &&
-                !credentials.phone.match(phoneFormat) && (
-                  <Alert severity='error'>Phone is required</Alert>
-                )
-              }
-            />
+              {/* User Gender */}
+              <TextField
+                fullWidth
+                label='Telefone'
+                margin='normal'
+                name='phone'
+                id='phone'
+                size='small'
+                type='text'
+                variant='outlined'
+                onChange={handleCredentials}
+                value={phoneMask(credentials.phone && credentials.phone)}
+                error={
+                  credentials.phone &&
+                  credentials.phone !== '' &&
+                  !credentials.phone.match(phoneFormat)
+                }
+                helperText={
+                  credentials.phone &&
+                  credentials.phone !== '' &&
+                  !credentials.phone.match(phoneFormat) && (
+                    <Alert severity='error'>Phone is required</Alert>
+                  )
+                }
+              />
 
-            {/* Email */}
-            <TextField
-              fullWidth
-              label='Endereço de E-mail'
-              margin='normal'
-              name='email'
-              id='email'
-              size='small'
-              type='email'
-              variant='outlined'
-              onChange={handleCredentials}
-              error={
-                credentials.email &&
-                credentials.email !== '' &&
-                !credentials.email.match(mailformat)
-              }
-              helperText={
-                credentials.email &&
-                credentials.email !== '' &&
-                !credentials.email.match(mailformat) && (
-                  <Alert severity='error'>
-                    Email Address must be a valid email
-                  </Alert>
-                )
-              }
-            />
+              {/* Email */}
+              <TextField
+                fullWidth
+                label='Endereço de E-mail'
+                margin='normal'
+                name='email'
+                id='email'
+                size='small'
+                type='email'
+                variant='outlined'
+                onChange={handleCredentials}
+                error={
+                  credentials.email &&
+                  credentials.email !== '' &&
+                  !credentials.email.match(mailformat)
+                }
+                helperText={
+                  credentials.email &&
+                  credentials.email !== '' &&
+                  !credentials.email.match(mailformat) && (
+                    <Alert severity='error'>
+                      Email Address must be a valid email
+                    </Alert>
+                  )
+                }
+              />
 
-            {/* User Password */}
-            <TextField
-              fullWidth
-              label='Senha'
-              margin='normal'
-              id='password'
-              name='password'
-              onChange={handleCredentials}
-              size='small'
-              type={passwordShown ? 'text' : 'password'}
-              variant='outlined'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton onClick={togglePassword}>
-                      {passwordShown ? (
-                        <Visibility style={{ fill: '#0072ea' }} />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={
-                credentials.password &&
-                credentials.password !== '' &&
-                !credentials.password.match(passFormat)
-              }
-              helperText={
-                credentials.password &&
-                credentials.password !== '' &&
-                !credentials.password.match(passFormat) && (
-                  <Alert severity='error'>
-                    Minimum eight and maximum 10 characters, at least one
-                    uppercase letter, one lowercase letter, one number and one
-                    special character
-                  </Alert>
-                )
-              }
-            />
+              {/* User Password */}
+              <TextField
+                fullWidth
+                label='Senha'
+                margin='normal'
+                id='password'
+                name='password'
+                onChange={handleCredentials}
+                size='small'
+                type={passwordShown ? 'text' : 'password'}
+                variant='outlined'
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton onClick={togglePassword}>
+                        {passwordShown ? (
+                          <Visibility style={{ fill: '#0072ea' }} />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={
+                  credentials.password &&
+                  credentials.password !== '' &&
+                  !credentials.password.match(passFormat)
+                }
+                helperText={
+                  credentials.password &&
+                  credentials.password !== '' &&
+                  !credentials.password.match(passFormat) && (
+                    <Alert severity='error'>
+                      Minimum eight and maximum 10 characters, at least one
+                      uppercase letter, one lowercase letter, one number and one
+                      special character
+                    </Alert>
+                  )
+                }
+              />
 
-            {/* User Confirm Password */}
-            <TextField
-              fullWidth
-              label='Confirmar Senha'
-              margin='normal'
-              id='matchPassword'
-              name='matchPassword'
-              onChange={handleCredentials}
-              size='small'
-              type={matchPasswordShown ? 'text' : 'password'}
-              variant='outlined'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton onClick={togglematchPassword}>
-                      {matchPasswordShown ? (
-                        <Visibility style={{ fill: '#0072ea' }} />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={
-                credentials.matchPassword &&
-                credentials.matchPassword !== '' &&
-                credentials.matchPassword !== credentials.password
-              }
-              helperText={
-                credentials.matchPassword &&
-                credentials.matchPassword !== '' &&
-                credentials.matchPassword !== credentials.password && (
-                  <Alert severity='error'>Passwords must be equal</Alert>
-                )
-              }
-            />
+              {/* User Confirm Password */}
+              <TextField
+                fullWidth
+                label='Confirmar Senha'
+                margin='normal'
+                id='matchPassword'
+                name='matchPassword'
+                onChange={handleCredentials}
+                size='small'
+                type={matchPasswordShown ? 'text' : 'password'}
+                variant='outlined'
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton onClick={togglematchPassword}>
+                        {matchPasswordShown ? (
+                          <Visibility style={{ fill: '#0072ea' }} />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={
+                  credentials.matchPassword &&
+                  credentials.matchPassword !== '' &&
+                  credentials.matchPassword !== credentials.password
+                }
+                helperText={
+                  credentials.matchPassword &&
+                  credentials.matchPassword !== '' &&
+                  credentials.matchPassword !== credentials.password && (
+                    <Alert severity='error'>Passwords must be equal</Alert>
+                  )
+                }
+              />
 
-            <SpinnerButton
-              handleClick={handleSignUp}
-              label={'Criar Conta'}
-              isLoading={loading}
-              disabled={credentials === ''}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-            />
-            <div>
-              Já tem uma conta? <Link to='/login'>Faça Login aqui!</Link>
-            </div>
+              <SpinnerButton
+                // handleClick={handleSignUp}
+                type='submit'
+                label={'Criar Conta'}
+                isLoading={loading}
+                disabled={credentials === ''}
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              />
+              <div>
+                Já tem uma conta? <Link to='/login'>Faça Login aqui!</Link>
+              </div>
+            </form>
           </div>
         </div>
       </section>

@@ -36,7 +36,7 @@ const AccountProfileDetails = (props) => {
     email: 'demo@devias.io',
     phone: '(82) 90000-0000',
     state: 'Alabama',
-    country: 'USA',
+    gender: 'USA',
   });
 
   const handleChange = (event) => {
@@ -109,12 +109,12 @@ const AccountProfileDetails = (props) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label='País'
-                name='country'
+                label='Sexo'
+                name='gender'
                 onChange={handleChange}
                 required
                 size='small'
-                value={values.country}
+                value={props.user.gender}
                 variant='outlined'
               />
             </Grid>

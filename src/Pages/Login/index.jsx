@@ -96,7 +96,8 @@ const Login = (props) => {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault();
     if (!credentials.email) {
       return alert.error('Please enter an Email !');
     }
@@ -122,82 +123,84 @@ const Login = (props) => {
               <img src={userIcon} alt='user icon' />
             </div>
             <h1>Fazer login</h1>
-
-            {/* Email */}
-            <TextField
-              fullWidth
-              label='Endereço de E-mail'
-              margin='normal'
-              name='email'
-              id='email'
-              size='small'
-              type='email'
-              variant='outlined'
-              onChange={handleCredentials}
-              // error={
-              //   credentials.email !== '' && !credentials.email.match(mailformat)
-              // }
-              // helperText={
-              //   credentials.email !== '' && !credentials.email.match(mailformat)
-              //     ? 'Email Address must be a valid email'
-              //     : ' '
-              // }
-            />
-
-            {/* Password */}
-            <TextField
-              fullWidth
-              label='Senha'
-              margin='normal'
-              name='password'
-              id='password'
-              size='small'
-              type={passwordShown ? 'text' : 'password'}
-              onChange={handleCredentials}
-              variant='outlined'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton onClick={togglePassword}>
-                      {passwordShown ? (
-                        <Visibility style={{ fill: '#0072ea' }} />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              // error={
-              //   credentials.password !== '' &&
-              //   !credentials.password.match(passFormat)
-              // }
-              // helperText={
-              //   credentials.password !== '' &&
-              //   !credentials.password.match(passFormat)
-              //     ? 'Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character'
-              //     : ' '
-              // }
-            />
-
-            <div className='persistCheck'>
-              <Checkbox
-                id='persist'
-                onChange={handleToggleCheck}
-                checked={check}
+            <form onSubmit={handleLogin}>
+              {/* Email */}
+              <TextField
+                fullWidth
+                label='Endereço de E-mail'
+                margin='normal'
+                name='email'
+                id='email'
+                size='small'
+                type='email'
+                variant='outlined'
+                onChange={handleCredentials}
+                // error={
+                //   credentials.email !== '' && !credentials.email.match(mailformat)
+                // }
+                // helperText={
+                //   credentials.email !== '' && !credentials.email.match(mailformat)
+                //     ? 'Email Address must be a valid email'
+                //     : ' '
+                // }
               />
-              <label htmlFor='persist'>Continuar conectado</label>
-            </div>
 
-            <SpinnerButton
-              handleClick={handleLogin}
-              label={'Fazer Login'}
-              isLoading={loading}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-            />
-            <div>
-              Não tem uma conta ? <Link to='/signup'> Crie uma aqui!</Link>
-            </div>
+              {/* Password */}
+              <TextField
+                fullWidth
+                label='Senha'
+                margin='normal'
+                name='password'
+                id='password'
+                size='small'
+                type={passwordShown ? 'text' : 'password'}
+                onChange={handleCredentials}
+                variant='outlined'
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton onClick={togglePassword}>
+                        {passwordShown ? (
+                          <Visibility style={{ fill: '#0072ea' }} />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                // error={
+                //   credentials.password !== '' &&
+                //   !credentials.password.match(passFormat)
+                // }
+                // helperText={
+                //   credentials.password !== '' &&
+                //   !credentials.password.match(passFormat)
+                //     ? 'Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+                //     : ' '
+                // }
+              />
+
+              <div className='persistCheck'>
+                <Checkbox
+                  id='persist'
+                  onChange={handleToggleCheck}
+                  checked={check}
+                />
+                <label htmlFor='persist'>Continuar conectado</label>
+              </div>
+
+              <SpinnerButton
+                // handleClick={handleLogin}
+                type='submit'
+                label={'Fazer Login'}
+                isLoading={loading}
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              />
+              <div>
+                Não tem uma conta ? <Link to='/signup'> Crie uma aqui!</Link>
+              </div>
+            </form>
           </div>
         </div>
       </section>

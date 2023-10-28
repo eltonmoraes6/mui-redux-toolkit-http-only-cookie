@@ -57,7 +57,7 @@ const AddNote = () => {
       ) : (
         <div>
           <Typography component='h1' variant='h5'>
-            Add Notes
+            Add Notas
           </Typography>
           <div className='form-group'>
             <TextField

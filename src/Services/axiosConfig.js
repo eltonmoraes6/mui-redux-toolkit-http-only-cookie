@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 // import { persistor } from "../Store/store.js";
 
 // import { useDispatch } from "react-redux";
@@ -11,22 +11,22 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-const refreshTokens = () => instance.get(`auth/refresh`);
+const refreshTokens = () => instance.get(`/auth/refresh`);
 
 instance.interceptors.request.use((config) => {
   // don't need to send cookies for sign_in API
-  //   if (config.url === "auth/signin") {
+  //   if (config.url === "/auth/signin") {
   //     return config;
   //   }
-  config.headers["authorization"] = localStorage.getItem("accessToken");
+  config.headers['authorization'] = localStorage.getItem('accessToken');
 
   return config;
 });
 
 instance.interceptors.response.use(
   function (response) {
-    if (response.config.url === "auth/refresh") {
-      localStorage.setItem("accessToken", response.data.accessToken);
+    if (response.config.url === '/auth/refresh') {
+      localStorage.setItem('accessToken', response.data.accessToken);
     }
     return response;
   },
@@ -42,17 +42,19 @@ instance.interceptors.response.use(
 
         return instance(config);
       } catch (error) {
+        console.log('instance error: ', error);
         return Promise.reject(error);
       }
     } else if (error.response.status === 403) {
       localStorage.clear();
-      window.location.href = "/login";
+      window.location.href = '/login';
       // persistor();
       // persistor.purge().then(() => {});
       // const dispatch = useDispatch();
       // dispatch(resetState);
       // store.dispatch(resetState);
     }
+    // console.log('instance error: ', error);
     return Promise.reject(error);
   }
 );
